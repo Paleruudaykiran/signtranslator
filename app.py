@@ -3,7 +3,7 @@ import urllib.request
 import os
 from werkzeug.utils import secure_filename
 from werkzeug.wrappers import response
-from cv2 import cv2
+import cv2
 import os
 import numpy as np
 import mediapipe as mp
