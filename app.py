@@ -22,7 +22,7 @@ def allowed_file(filename):
      
  
 
-@app.route('/') #decorator drfines the   
+@app.route('/',methods=['GET']) #decorator drfines the   
 def home():  
     mypath = UPLOAD_FOLDER
     for root, dirs, files in os.walk(mypath):
