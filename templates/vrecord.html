@@ -1,0 +1,12 @@
+{% extends 'base.html' %} 
+
+{% block content %} 
+<div>
+    <div>
+        <img src="{{ url_for('video')}}" alt="">
+    </div>
+    <div>
+        <a class='goback' href="{{ url_for('stopAndPredict') }}">stop and predict</a>
+    </div>
+</div>
+{% endblock content %}

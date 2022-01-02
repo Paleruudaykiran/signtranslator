@@ -1,0 +1,51 @@
+{% extends 'base.html' %} 
+{% block title %} 
+<title>Sign to Text</title>
+{% endblock title %} 
+
+<!-- body of SignToText page -->
+{% block content %} 
+<!-- <h2>Sign to Text page</h2> -->
+<div class='stot-container'>
+<!-- <p>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+</p> -->
+<form action="/tPredict" method='POST' enctype="multipart/form-data">
+  <fieldset>
+    <legend>Image to text</legend>
+    
+    <div class="fileUpload btn btn-primary">
+      <!-- <span><i class="fas fa-cloud-upload-alt"></i></span> -->
+      <input type="file" class="upload" name='imgfile'  accept="image/*" />
+    </div>
+    <input type='submit' value='predict' />
+  </fieldset>
+</form>
+<br>
+<div style="background-color: black;margin:0 auto;width:600px;height:1px;"></div>
+<form action="/vPredict" method='POST' enctype="multipart/form-data">
+  <fieldset>
+    <legend>video to text</legend>
+    
+    <div class="fileUpload btn btn-primary">
+      <!-- <span><i class="fas fa-cloud-upload-alt"></i></span> -->
+      <input type="file" class="upload" name='videofile'  accept="video/*" />
+    </div>
+    <input type='submit' value='predict' />
+  </fieldset>
+</form>
+<br>
+<div style="background-color: black;margin:0 auto;width:600px;height:1px;"></div>
+<br>
+<a class='vrecord' href="/vRecord">Start Recording</a>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %} 
+
+{% block content %} 
+<div class='predict-allcontainer'>
+    <div class='predict-back'>
+        <a class='goback' href="/stot">Go back</a>
+        <strong>predicted text for the gieven image</strong>
+    </div>
+<div class='predict-container'>
+    <div class='predict-video'>
+        <video width="320" height="240" controls>
+            <source src="{{ path }}" type="video/mp4">
+          Your browser does not support the video tag.
+          </video>
+    </div>
+    <span class='vtext'>{{text}}</span>
+</div>
+<button class='voicebtn'>speak out</button>
+<article>
+    <strong>Note :</strong>
+    <br>
+    <ol style="text-align: center;display: inline-block;">
+       <li>Make sure the video size to be 640 X 480 resuolution</li>
+       <li>Make sure that only one hand appears in the frame</li>
+    </ol>
+</article>
+</div>
+{% endblock content %}
