@@ -22,12 +22,12 @@ def allowed_file(filename):
      
  
 
-@app.route('/',methods=['GET']) #decorator drfines the   
+@app.route('/') #decorator drfines the   
 def home():  
-    mypath = UPLOAD_FOLDER
-    for root, dirs, files in os.walk(mypath):
-        for file in files:
-            os.remove(os.path.join(root, file))
+    # mypath = UPLOAD_FOLDER
+    # for root, dirs, files in os.walk(mypath):
+    #     for file in files:
+    #         os.remove(os.path.join(root, file))
     return render_template('home.html')  
   
 @app.route('/stot') 
