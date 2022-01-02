@@ -126,10 +126,10 @@ def allowed_file(filename):
 
 @app.route('/') #decorator drfines the   
 def home():  
-    # mypath = UPLOAD_FOLDER
-    # for root, dirs, files in os.walk(mypath):
-    #     for file in files:
-    #         os.remove(os.path.join(root, file))
+    mypath = UPLOAD_FOLDER
+    for root, dirs, files in os.walk(mypath):
+        for file in files:
+            os.remove(os.path.join(root, file))
     return render_template('home.html')  
   
 @app.route('/stot') 
@@ -300,8 +300,8 @@ def video() :
 
 @app.route('/stopAndPredict') 
 def stopAndPredict() : 
-    cap.release()
-    cv2.destroyAllWindows() 
+    # cap.release()
+    # cv2.destroyAllWindows() 
     text = ''.join(sentence)
     return render_template('recresult.html',text=text)
 
