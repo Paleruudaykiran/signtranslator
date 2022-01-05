@@ -5,18 +5,30 @@
 
 <!-- body of the home page -->
 {% block content %} 
+<div class='home-background'>
 <div class='home-container'>
     <div class='home-item'>
+        <div class='home-item-images'>
+            <img class='item-img' src="/static/images/hand_gesture.jpeg" alt="gestures">
+            <img class='arrow-img' src="/static/images/arrow.png" alt="to">
+            <img class='item-img' src="/static/images/alphabet.jpg" alt="letters">
+        </div>
         <p>
             This section helps you to get the text/voice for the hand gestures provided 
         </p>
         <a href="/stot">Sign Language to text</a>
     </div>
     <div class='home-item'>
+        <div class='home-item-images'>
+            <img class='item-img' src="/static/images/alphabet.jpg" alt="letters">
+            <img class='arrow-img' src="/static/images/arrow.png" alt="to">
+            <img class='item-img' src="/static/images/hand_gesture.jpeg" alt="gestures">
+        </div>
         <p>
             This section helps you to know hand gestures for the text/voice provided 
         </p>
         <a href="/ttos">Text to sign language</a>
     </div>
-    </div>
+</div>
+</div>
 {% endblock content %}

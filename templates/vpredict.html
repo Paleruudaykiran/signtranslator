@@ -13,9 +13,9 @@
           Your browser does not support the video tag.
           </video>
     </div>
-    <span class='vtext'>{{text}}</span>
+    <span  class='vtext'>{{text}}</span>
 </div>
-<button class='voicebtn'>speak out</button>
+<button onclick="texttovoice()" class='voicebtn'>speak out</button>
 <article>
     <strong>Note :</strong>
     <br>
@@ -25,4 +25,18 @@
     </ol>
 </article>
 </div>
+<script>
+    function texttovoice() {
+       console.log('funtion called')
+       var text = document.querySelector('.vtext').innerText
+       console.log(text)
+       if( 'speechSynthesis' in window ) {
+        let speaknow = new SpeechSynthesisUtterance(text); 
+        window.speechSynthesis.speak(speaknow); 
+       } 
+       else {
+           alert('browser not supported')
+       }
+   }
+</script>
 {% endblock content %}

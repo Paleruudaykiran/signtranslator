@@ -6,7 +6,16 @@
     </div>
     <div style="width:300px;">
         <a class='rec-goback' href="/stot">go back</a>
-        <a class='rec-speakout' href="">speak out</a>
+        <button onclick="texttospeech()" class='rec-speakout' href="">speak out</button>
     </div>
 </div>
+<script>
+    function texttospeech() {
+         if('speechSynthesis' in window) {
+             var text = document.querySelector('.outputtext').innerText
+             let speaknow = new SpeechSynthesisUtterance(text); 
+             window.speechSynthesis.speak(speaknow); 
+         }
+    }
+</script>
 {% endblock content %}

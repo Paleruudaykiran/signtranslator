@@ -86,28 +86,29 @@ def imagePrediction(path) :
         # Draw the hand annotations on the image.
         image.flags.writeable = True
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-        for hand_landmarks in results.multi_hand_landmarks:
-            mp_drawing.draw_landmarks(
-                image,
-                hand_landmarks,
-                mp_hands.HAND_CONNECTIONS,
-                mp_drawing_styles.get_default_hand_landmarks_style(),
-                mp_drawing_styles.get_default_hand_connections_style())
-        try:
-            ch = 'not found'
-            lis = hand_landmarks.landmark
-            #print('list ',lis)
-            row = list(np.array([[landmark.x, landmark.y, landmark.z] for landmark in lis]).flatten())
-            X = pd.DataFrame([row])
-            body_language_class = model.predict(X)[0]
-            body_language_prob = model.predict_proba(X)[0]
-            print(body_language_class,round(body_language_prob[np.argmax(body_language_prob)],2)*100)
-            #if round(body_language_prob[np.argmax(body_language_prob)],2)*100 >= 70 :
-            ch = body_language_class.split(' ')[0]
-            #print(ch)
-            return ch
-        except : 
-            pass
+        if results.multi_hand_landmarks : 
+            for hand_landmarks in results.multi_hand_landmarks:
+                mp_drawing.draw_landmarks(
+                    image,
+                    hand_landmarks,
+                    mp_hands.HAND_CONNECTIONS,
+                    mp_drawing_styles.get_default_hand_landmarks_style(),
+                    mp_drawing_styles.get_default_hand_connections_style())
+            try:
+                ch = 'not found'
+                lis = hand_landmarks.landmark
+                #print('list ',lis)
+                row = list(np.array([[landmark.x, landmark.y, landmark.z] for landmark in lis]).flatten())
+                X = pd.DataFrame([row])
+                body_language_class = model.predict(X)[0]
+                body_language_prob = model.predict_proba(X)[0]
+                print(body_language_class,round(body_language_prob[np.argmax(body_language_prob)],2)*100)
+                #if round(body_language_prob[np.argmax(body_language_prob)],2)*100 >= 70 :
+                ch = body_language_class.split(' ')[0]
+                #print(ch)
+                return ch
+            except : 
+                pass
     
 
 app = Flask(__name__) #creating the Flask class object   

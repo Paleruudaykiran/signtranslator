@@ -1,4 +1,7 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&family=Readex+Pro:wght@500&display=swap');
+* {
+    margin: 0;
+}
 .navbar {
     display: flex;
     justify-content: space-around;
@@ -8,11 +11,9 @@
     box-shadow:black 1px 2px 8px;
     position:sticky;
     top:0;
+    font-family: 'Inconsolata', monospace;
+    font-family: 'Readex Pro', sans-serif;
 } 
-* {
-    margin: 0;
-}
-
 .navbar > * {
     width:50%;
 }
@@ -53,22 +54,45 @@
 }
 .home-container {
     display: grid;
-    width:80%;
+    width:100%;
     grid-template-columns: 1fr 1fr;
-    margin:2em auto;
+    margin:0 auto;
     place-items: center;
-    height: 60vh;
+    background-color: rgba(0,0,0,0.5);
+    height:100vh;
 }
 .home-item {
-    max-width: 200px;
+    min-width: 200px;
     background-color: lavenderblush;
-    padding:1rem;
+    padding:2rem 1rem;
     border:1px solid black;
+    transition: 0.2s;
+    max-width: 500px;
+    border-radius: 5px;
+}
+.home-item:hover {
+    background-color: inherit;
+    border:1px solid skyblue;
+}
+.home-item-images {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.arrow-img {
+    width:50px;
+}
+.item-img {
+    width:100px;
+    border-radius: 100%;
 }
 .home-item p {
     text-align: center;
     border-bottom: 0.1px solid black;
     padding-bottom:5px;
+    font-size: 1.2rem;
+    margin:5px 0;
+    color:red;
 }
 .home-item a {
     text-decoration: none;
@@ -176,4 +200,139 @@ input[type='file'] {
 .goback {
     font-size: 1rem;
     float: left;
+}
+.vtext {
+    text-align: center;
+    font-size: 1rem;
+    background-color:#282828;
+    color:white;
+    width:300px;
+    height:250px;
+   }
+   .voicebtn {
+    background-color:blueviolet;
+    color:black;
+    font-size: 1.5rem;
+    font-weight: bold;
+    width:200px;
+    margin-bottom: 5px;
+    border: none;
+   }
+   .voicebtn:hover {
+    opacity:0.8;
+    box-shadow: black 1px 0px 3px;
+    }
+    .vrecord {
+        text-decoration: none;
+        text-transform: capitalize;
+        background-color: blue;
+        color:white;
+        width:400px;
+        display: block;
+        margin: 0 auto;
+        font-size: 1.5rem;
+    }
+    .vrecord:hover {
+        box-shadow: whitesmoke 1px 0px 3px;
+    }
+    .output-container {
+        display:grid;
+        place-items: center;
+        margin:20px auto;
+        background-color: #4f5459;
+        width: 80%;
+        min-height: 60vh;
+    }
+    .outputtext {
+        background-color: darkslategray;
+        color:aqua;
+        font-size: 2rem;
+        min-width: 300px;
+        min-height:300px;
+        padding:1em;
+        border-radius: 10px;
+        box-shadow: white 1px 0px 3px;
+    }
+    .rec-goback , .rec-speakout{
+        font-size: 1.5rem;
+        background-color: inherit;
+        border: 1px solid blue;
+        color:aqua;
+        padding:0.2em 1em;
+        text-decoration: none;
+        align-self: flex-start;
+    }
+    .rec-goback {
+        float:left;
+    }
+    .rec-speakout {
+        float:right;
+    }
+    .rec-goback:hover ,.rec-speakout:hover{
+        box-shadow: white 1px 0px 3px;
+    }
+    .logo-text {
+        font-family: 'Inconsolata', monospace;
+        font-family: 'Readex Pro', sans-serif;
+        color:#4f5459;
+        margin-left:5px;
+    }
+    svg {
+        background-color: black;
+        color:pink;
+        border-radius: 100%;
+        padding:2px;
+    }
+.about-page {
+    background-color: #e5e6e6;
+    margin:10px auto;
+    width:80%;
+    padding-bottom: 10px;
+}
+.about-page h3 {
+    background-color: aquamarine;
+    padding:5px;
+    color:#4f5459;
+}
+.about-page p{
+    padding:10px;
+    font-size: 1.2rem;
+}
+.about-page ul {
+    margin:10px;
+}
+.about-page ul li {
+    margin:10px 0;
+}
+.vlink {
+    background-color:aliceblue;
+    margin:20px auto;
+    display:grid;
+    justify-content: center;
+    grid-template-columns: 1fr;
+}
+.stp {
+    background-color:#282828;
+    margin:5px auto;
+    display:block;
+    text-decoration: none;
+    text-transform: capitalize;
+    border:1px solid #282828;
+    color:blue;
+    text-align: center;
+}
+.stp:hover {
+    color:white;
+    border:1px solid blue;
+    box-shadow: black 1px 0px 3px;
+}
+.home-background {
+    background-image: url('/static/images/background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    min-height:100vh;
+    margin:0;
+    /* display: grid; */
+    place-items: center;
 }

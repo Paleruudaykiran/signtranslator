@@ -11,7 +11,7 @@
     </div>
     <span class='text'>{{text}}</span>
 </div>
-<button class='voicebtn'>speak out</button>
+<button class='voicebtn' onclick="texttovoice()">speak out</button>
 <article">
     <strong>Note :</strong>
     <br>
@@ -20,5 +20,20 @@
        <li>Make sure that only one hand appears in the frame</li>
     </ol>
 </article>
-</div>
+</div> 
+
+<script>
+   function texttovoice() {
+       console.log('funtion called')
+       var text = document.querySelector('.text').innerText
+       console.log(text)
+       if( 'speechSynthesis' in window ) {
+        let speaknow = new SpeechSynthesisUtterance(text); 
+        window.speechSynthesis.speak(speaknow); 
+       } 
+       else {
+           alert('browser not supported')
+       }
+   }
+</script>
 {% endblock content %}

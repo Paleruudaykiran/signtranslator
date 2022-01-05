@@ -4,79 +4,51 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="../static/css/main.css"> -->
     <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}">
-    <title>SignTranslator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&family=Readex+Pro:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-    .vtext {
-    text-align: center;
-    font-size: 1rem;
-    background-color:#282828;
-    color:white;
-    width:300px;
-    height:250px;
-   }
-   .voicebtn {
-    background-color:blueviolet;
-    color:black;
-    font-size: 1.5rem;
-    font-weight: bold;
-    width:200px;
-    margin-bottom: 5px;
-    border: none;
-   }
-   .voicebtn:hover {
-    opacity:0.8;
-    box-shadow: black 1px 0px 3px;
-    }
     .vrecord {
-        text-decoration: none;
-        text-transform: capitalize;
-        background-color: blue;
-        color:white;
-        width:400px;
-        display: block;
-        margin: 0 auto;
-        font-size: 1.5rem;
-    }
-    .vrecord:hover {
-        box-shadow: whitesmoke 1px 0px 3px;
-    }
-    .output-container {
-        display:grid;
-        place-items: center;
-        margin:20px auto;
-        background-color: #4f5459;
-        width: 80%;
-        min-height: 60vh;
-    }
-    .outputtext {
-        background-color: darkslategray;
-        color:aqua;
-        font-size: 1.5rem;
-        min-width: 300px;
-        min-height:300px;
-        padding:1em;
-        border-radius: 10px;
-        box-shadow: white 1px 0px 3px;
-    }
-    .rec-goback , .rec-speakout{
-        font-size: 1rem;
-        background-color: inherit;
-        border: 1px solid blue;
-        color:aqua;
-        padding:0.2em 1em;
-        text-decoration: none;
-        align-self: flex-start;
-    }
-    .rec-goback {
-        float:left;
-    }
-    .rec-speakout {
-        float:right;
-    }
-    .rec-goback:hover ,.rec-speakout:hover{
-        box-shadow: white 1px 0px 3px;
-    }
+    background-color:aliceblue;
+    margin:20px auto;
+    display:grid;
+    justify-content: center;
+    grid-template-columns: 1fr;
+   }
+   .vlink {
+       background-color: inherit;
+       color:white;
+       text-decoration: none;
+       text-transform: capitalize;
+       border: 2px solid black;
+       width:400px;
+       display: block;
+       margin:0 auto;
+       font-size: 1.5rem;
+   }
+   .vlink:hover {
+       border:2px solid blue;
+   }
+   .sep {
+    background-color: black;margin:0 auto;width:600px;height:1px;
+   }
+   @media screen and (max-width:630px) {
+       .right-nav {
+           display: none;
+       }
+       .navbar {
+           display: block;
+       }
+       form {
+          width:100%;
+       }
+       .sep {
+           display:none;
+       }
+   }
     </style>
     {% block head %}{% endblock head %}
 </head>
