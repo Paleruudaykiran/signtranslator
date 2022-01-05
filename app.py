@@ -210,7 +210,7 @@ def gen_frames() :
     with open('body_language.pkl', 'rb') as f:
         model = pickle.load(f)
     global cap 
-    cap = cv2.VideoCapture()
+    cap = cv2.VideoCapture(0)
     idx = 0
     with mp_hands.Hands(
         max_num_hands=1,
