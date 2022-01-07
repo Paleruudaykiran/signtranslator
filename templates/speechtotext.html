@@ -1,0 +1,68 @@
+{% extends 'base.html' %} 
+{% block content %} 
+<div class='speechtt-container'>
+       <fieldset>
+           <legend>Speech To Text</legend>
+               <textarea id="text" cols="30" rows="10"></textarea>
+               <button class='t-btn' id='start'>start</button>
+               <button class='t-btn' id='stop'>stop</button>
+               <div>
+                   <p id='instructions'> hello </p>
+               </div>
+       </fieldset>
+</div>
+<script>
+    var speechRecognition = window.webkitSpeechRecognition
+
+    var recognition = new speechRecognition() 
+    
+    var textbox = document.querySelector('#text') 
+
+    var instructions = document.querySelector('#instructions')
+
+    recognition.continuous = true
+
+    var start = document.querySelector('#start')
+    var stop = document.querySelector('#stop')
+    console.log(start)
+    var content = ''
+    console.log(recognition)
+
+    instructions.innerText = 'helloworld'
+    recognition.onstart = function () {
+        //console.log('started')
+        instructions.innerText = 'Voice Recognition Is On...'
+    }
+
+    recognition.onspeechend = function () {
+        //console.log('speechended')
+        instructions.innerText = 'No activity' 
+        recognition.stop() 
+    }
+    recognition.onerror = function () {
+        //console.log('error occured')
+        instructions.innerText = 'Try again'
+    }
+
+    recognition.onresult = function (event) {
+        //console.log('result')
+        var current = event.resultIndex
+
+        var transcript = event.results[current][0].transcript
+
+        content += transcript
+
+        textbox.value = content 
+    }
+    start.addEventListener('click', (e) => {
+        console.log('clicked')
+        if(content.length == '') 
+           content += '' 
+        recognition.start()
+    })
+    stop.addEventListener('click', (e) => {
+        instructions.innerHTML = 'Voic Recoginition Is Stoped...'
+        recognition.stop()
+    })
+</script>
+{% endblock content %}

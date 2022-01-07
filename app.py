@@ -207,54 +207,76 @@ def stopAndPredict() :
 @app.route('/imgPredict',methods=['POST','GET']) 
 def imgPredict() : 
     if request.method == 'POST' : 
-        image_folder = 'static/images'
-        video_name = UPLOAD_FOLDER + '/' + 'video.avi'
+        pathOut = UPLOAD_FOLDER + 'output.mp4'
+        time = 5
+        fps = 1
         text = request.form['text'] 
-        frameSize = (500, 500)
-        mean_height = 0
-        mean_width = 0 
-        path = 'static/images/'
-        num_of_images = 0
-        for ch in text : 
-            filename = ch + '.png'
-            im = Image.open(os.path.join(path, filename))
-            width, height = im.size
-            mean_width += width
-            mean_height += height
-            num_of_images += 1
-        
-        mean_width = int(mean_width / num_of_images)
-        mean_height = int(mean_height / num_of_images)
+        pathIn = 'static/images/'
+        frame_array=[]
+        for ch in text:
+            filename=pathIn + ch + '.png'
+            print('filename : ',filename)
+            img=cv2.imread(filename)
+            img=cv2.resize(img,(320,240))
+            height, width, layers = img.shape
+            print('size : ',width,height)
+            size=(width,height)
 
-        for ch in text :
-            filename = ch + '.png'
-            im = Image.open(os.path.join(path, filename))
-            width, height = im.size
-            # imResize = im.resize((mean_width, mean_height), Image.ANTIALIAS) 
-            # imResize.save( filename, 'JPEG', quality = 95) 
-            # print(im.filename.split('\\')[-1], " is resized") 
+            for k in range (time):
+                frame_array.append(img)
+        out=cv2.VideoWriter(pathOut,cv2.VideoWriter_fourcc(*'XVID'), fps,size)
+        print('frame array : ',frame_array)
+        for i in range(len(frame_array)):
+            out.write(frame_array[i])
+        out.release()
+        # image_folder = 'static/images'
+        # video_name = UPLOAD_FOLDER + '/' + 'video.avi'
+        # text = request.form['text'] 
+        # frameSize = (500, 500)
+        # mean_height = 0
+        # mean_width = 0 
+        # path = 'static/images/'
+        # num_of_images = 0
+        # for ch in text : 
+        #     filename = ch + '.png'
+        #     im = Image.open(os.path.join(path, filename))
+        #     width, height = im.size
+        #     mean_width += width
+        #     mean_height += height
+        #     num_of_images += 1
         
-        images = []
-        for ch in text : 
-            filename = ch + '.png'
-            images.append(filename)
+        # mean_width = int(mean_width / num_of_images)
+        # mean_height = int(mean_height / num_of_images)
+
+        # for ch in text :
+        #     filename = ch + '.png'
+        #     im = Image.open(os.path.join(path, filename))
+        #     width, height = im.size
+        #     # imResize = im.resize((mean_width, mean_height), Image.ANTIALIAS) 
+        #     # imResize.save( filename, 'JPEG', quality = 95) 
+        #     # print(im.filename.split('\\')[-1], " is resized") 
         
-        print('images : ',images)
-        frame = cv2.imread(os.path.join(image_folder, images[0]))
-        height, width, layers = frame.shape  
+        # images = []
+        # for ch in text : 
+        #     filename = ch + '.png'
+        #     images.append(filename)
+        
+        # print('images : ',images)
+        # frame = cv2.imread(os.path.join(image_folder, images[0]))
+        # height, width, layers = frame.shape  
   
-        video = cv2.VideoWriter(video_name, 0, 3, (width, height)) 
-        for image in images: 
-            print(image)
-            img = cv2.imread(os.path.join(image_folder, image))
-            print('img : ',img)
-            video.write(img) 
+        # video = cv2.VideoWriter(video_name, 0, 3, (width, height)) 
+        # for image in images: 
+        #     print(image)
+        #     img = cv2.imread(os.path.join(image_folder, image))
+        #     print('img : ',img)
+        #     video.write(img) 
             
-        cv2.destroyAllWindows() 
-        video.release()  
+        # cv2.destroyAllWindows() 
+        # video.release()  
 
-        path = video_name
-    return render_template('vshow.html',path=path,text = text)
+        # path = video_name
+    return render_template('vshow.html',path=pathOut,text = text)
 
 @app.route('/about') 
 def about() : 
@@ -269,5 +291,10 @@ def guide() :
 def TTS() : 
     return render_template('texttospeech.html')
 
+@app.route('/speechtotext') 
+def STT() : 
+    return render_template('speechtotext.html') 
+
+    
 if __name__ =='__main__':  
     app.run(debug = True)  

@@ -403,6 +403,33 @@ input[type='file'] {
     opacity:0.8;
     box-shadow:white 1px 0px 8px;
 }
+.speechtt-container {
+    background-color: #4f5459;
+    min-height: 90vh;
+    padding:20px;
+}
+.speechtt-container fieldset {
+    text-align:center;
+}
+.speechtt-container #text {
+    width:80%;
+    background-color: #1a1a24;
+    font-size: 1.5rem;
+    display: block;
+    margin: 0 auto;
+    color:whitesmoke;
+}
+.speechtt-container #start #stop {
+
+}
+.speechtt-container #stop {
+    float:left;
+}
+.speechtt-container #instructions {
+    color : red;
+    font-size: 1rem;
+    margin-top:5px;
+}
 @media  screen and (max-width:600px) {
     .navbar {
         flex-direction: column;
@@ -420,6 +447,12 @@ input[type='file'] {
          margin:10px 0;
      }
      .texttospeech-container > div {
+         width:100%;
+     }
+     .speechtt-container #start , .speechtt-container #stop {
+         font-size: 1rem;
+     }
+     .speechtt-container #text {
          width:100%;
      }
     
