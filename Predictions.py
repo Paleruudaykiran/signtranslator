@@ -15,7 +15,6 @@ def videoPrediction(path) :
     cap = cv2.VideoCapture(path) 
     sentence = []
     idx = 0
-    return 'abcdefght'
     while cap.isOpened() : 
         ret,image = cap.read() 
         if ret == False : 
@@ -82,6 +81,8 @@ def imagePrediction(path) :
         # Draw the hand annotations on the image.
         image.flags.writeable = True
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+        if not results.multi_hand_landmarks : 
+            return '_'
         for hand_landmarks in results.multi_hand_landmarks:
             mp_drawing.draw_landmarks(
                 image,
