@@ -208,12 +208,17 @@ def stopAndPredict() :
 def imgPredict() : 
     if request.method == 'POST' : 
         pathOut = UPLOAD_FOLDER + 'output.mp4'
-        time = 5
+        time = 2
         fps = 1
         text = request.form['text'] 
+        text = text.lower() 
         pathIn = 'static/images/'
         frame_array=[]
         for ch in text:
+            if ch == ' ' : 
+                continue
+            elif ch < 'a' or ch > 'z' : 
+                continue
             filename=pathIn + ch + '.png'
             print('filename : ',filename)
             img=cv2.imread(filename)
@@ -224,58 +229,11 @@ def imgPredict() :
 
             for k in range (time):
                 frame_array.append(img)
-        out=cv2.VideoWriter(pathOut,cv2.VideoWriter_fourcc(*'XVID'), fps,size)
+        out=cv2.VideoWriter(pathOut,0, fps,size)
         print('frame array : ',frame_array)
         for i in range(len(frame_array)):
             out.write(frame_array[i])
         out.release()
-        # image_folder = 'static/images'
-        # video_name = UPLOAD_FOLDER + '/' + 'video.avi'
-        # text = request.form['text'] 
-        # frameSize = (500, 500)
-        # mean_height = 0
-        # mean_width = 0 
-        # path = 'static/images/'
-        # num_of_images = 0
-        # for ch in text : 
-        #     filename = ch + '.png'
-        #     im = Image.open(os.path.join(path, filename))
-        #     width, height = im.size
-        #     mean_width += width
-        #     mean_height += height
-        #     num_of_images += 1
-        
-        # mean_width = int(mean_width / num_of_images)
-        # mean_height = int(mean_height / num_of_images)
-
-        # for ch in text :
-        #     filename = ch + '.png'
-        #     im = Image.open(os.path.join(path, filename))
-        #     width, height = im.size
-        #     # imResize = im.resize((mean_width, mean_height), Image.ANTIALIAS) 
-        #     # imResize.save( filename, 'JPEG', quality = 95) 
-        #     # print(im.filename.split('\\')[-1], " is resized") 
-        
-        # images = []
-        # for ch in text : 
-        #     filename = ch + '.png'
-        #     images.append(filename)
-        
-        # print('images : ',images)
-        # frame = cv2.imread(os.path.join(image_folder, images[0]))
-        # height, width, layers = frame.shape  
-  
-        # video = cv2.VideoWriter(video_name, 0, 3, (width, height)) 
-        # for image in images: 
-        #     print(image)
-        #     img = cv2.imread(os.path.join(image_folder, image))
-        #     print('img : ',img)
-        #     video.write(img) 
-            
-        # cv2.destroyAllWindows() 
-        # video.release()  
-
-        # path = video_name
     return render_template('vshow.html',path=pathOut,text = text)
 
 @app.route('/about') 

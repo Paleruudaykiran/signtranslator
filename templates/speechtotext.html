@@ -7,7 +7,7 @@
                <button class='t-btn' id='start'>start</button>
                <button class='t-btn' id='stop'>stop</button>
                <div>
-                   <p id='instructions'></p>
+                   <p id='instructions'> hello </p>
                </div>
        </fieldset>
 </div>
@@ -26,6 +26,9 @@
     var stop = document.querySelector('#stop')
     console.log(start)
     var content = ''
+    console.log(recognition)
+
+    instructions.innerText = 'helloworld'
     recognition.onstart = function () {
         //console.log('started')
         instructions.innerText = 'Voice Recognition Is On...'
