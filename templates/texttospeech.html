@@ -1,0 +1,24 @@
+{% extends 'base.html' %} 
+
+{% block content %}  
+<div class='texttospeech-container'>
+    <div>
+    <textarea  placeholder='Enter you text here...' class='text' name="texttospeech"  cols="30" rows="10"></textarea>
+    <button class='t-btn' onClick='TTS()'>Translate</button>
+   </div>
+</div>
+<script>
+    function TTS() {
+       console.log('funtion called')
+       var text = document.querySelector('.text').value
+       console.log(text)
+       if( 'speechSynthesis' in window ) {
+        let speaknow = new SpeechSynthesisUtterance(text); 
+        window.speechSynthesis.speak(speaknow); 
+       } 
+       else {
+           alert('browser not supported')
+       }
+   }
+</script>
+{% endblock content %}

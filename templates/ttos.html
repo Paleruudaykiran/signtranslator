@@ -5,6 +5,15 @@
 
 <!-- body of SignToText page -->
 {% block content %} 
-<h1>Text to sign page</h1>
+<div class='stot-container'>
+    <form action="/imgPredict" method='POST' enctype="multipart/form-data">
+        <fieldset class='ttos'>
+          <legend>text to image</legend>
+          <textarea class='txtarea' name="text" id="" cols="30" rows="10" placeholder="Enter your text here..."></textarea>
+          <input type='submit' value='Translate' />
+        </fieldset>
+      </form>
+    </form>
+</div>
 {% endblock content %}
 

@@ -3,113 +3,10 @@ import urllib.request
 import os
 from werkzeug.utils import secure_filename
 from werkzeug.wrappers import response
+from Predictions import *
+from PIL import Image 
 import cv2
-import os
-import numpy as np
-import mediapipe as mp
-import pandas as pd
-import pickle
-
-mp_drawing = mp.solutions.drawing_utils
-mp_drawing_styles = mp.solutions.drawing_styles
-mp_hands = mp.solutions.hands
-
-def videoPrediction(path) : 
-    with open('body_language.pkl', 'rb') as f:
-        model = pickle.load(f)
-    cap = cv2.VideoCapture(path) 
-    sentence = []
-    idx = 0
-    while cap.isOpened() : 
-        ret,image = cap.read() 
-        if ret == False : 
-            break
-        with mp_hands.Hands(
-            max_num_hands=1,
-            model_complexity=0,
-            min_detection_confidence=0.5,
-            min_tracking_confidence=0.5) as hands:
-            image.flags.writeable = False
-            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-            results = hands.process(image)
-            # Draw the hand annotations on the image.
-            image.flags.writeable = True
-            image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-            if  results.multi_hand_landmarks : 
-                for hand_landmarks in results.multi_hand_landmarks:
-                    mp_drawing.draw_landmarks(
-                        image,
-                        hand_landmarks,
-                        mp_hands.HAND_CONNECTIONS,
-                        mp_drawing_styles.get_default_hand_landmarks_style(),
-                        mp_drawing_styles.get_default_hand_connections_style())
-                try:
-                    ch = 'not found'
-                    lis = hand_landmarks.landmark
-                    #print('list ',lis)
-                    row = list(np.array([[landmark.x, landmark.y, landmark.z] for landmark in lis]).flatten())
-                    X = pd.DataFrame([row])
-                    body_language_class = model.predict(X)[0]
-                    body_language_prob = model.predict_proba(X)[0]
-                    print(body_language_class,round(body_language_prob[np.argmax(body_language_prob)],2)*100)
-                    #if round(body_language_prob[np.argmax(body_language_prob)],2)*100 >= 70 :
-                    ch = body_language_class.split(' ')[0]
-                    #print(ch)
-                    if idx == 0 : 
-                        sentence.append(ch) 
-                        idx += 1
-                    else : 
-                        if sentence[-1] != ch : 
-                            sentence.append(ch) 
-                    print(sentence)
-                except : 
-                    pass
-    print('lis : ',sentence)
-    return ''.join(sentence)
-
-def imagePrediction(path) : 
-    with open('body_language.pkl', 'rb') as f:
-        model = pickle.load(f)
-    print(path)
-    image = cv2.imread(path)
-    #print('image' , image) 
-    #cv2.imshow('uploaded image',image)
-    with mp_hands.Hands(
-        max_num_hands=1,
-        model_complexity=0,
-        min_detection_confidence=0.5,
-        min_tracking_confidence=0.5) as hands:
-        image.flags.writeable = False
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        results = hands.process(image)
-
-        # Draw the hand annotations on the image.
-        image.flags.writeable = True
-        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-        if results.multi_hand_landmarks : 
-            for hand_landmarks in results.multi_hand_landmarks:
-                mp_drawing.draw_landmarks(
-                    image,
-                    hand_landmarks,
-                    mp_hands.HAND_CONNECTIONS,
-                    mp_drawing_styles.get_default_hand_landmarks_style(),
-                    mp_drawing_styles.get_default_hand_connections_style())
-            try:
-                ch = 'not found'
-                lis = hand_landmarks.landmark
-                #print('list ',lis)
-                row = list(np.array([[landmark.x, landmark.y, landmark.z] for landmark in lis]).flatten())
-                X = pd.DataFrame([row])
-                body_language_class = model.predict(X)[0]
-                body_language_prob = model.predict_proba(X)[0]
-                print(body_language_class,round(body_language_prob[np.argmax(body_language_prob)],2)*100)
-                #if round(body_language_prob[np.argmax(body_language_prob)],2)*100 >= 70 :
-                ch = body_language_class.split(' ')[0]
-                #print(ch)
-                return ch
-            except : 
-                pass
-    
+import glob
 
 app = Flask(__name__) #creating the Flask class object   
 UPLOAD_FOLDER = 'static/images/uploads/'
@@ -208,6 +105,7 @@ def videoRecord() :
 sentence = [] 
 
 def gen_frames() : 
+    print('generate frames called')
     with open('body_language.pkl', 'rb') as f:
         model = pickle.load(f)
     global cap 
@@ -229,7 +127,7 @@ def gen_frames() :
             # Draw the hand annotations on the image.
             image.flags.writeable = True
             image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-            cv2.imwrite('image'+str(idx)+'.jpg',image)
+            # cv2.imwrite('image'+str(idx)+'.jpg',image)
             if results.multi_hand_landmarks:
                    for hand_landmarks in results.multi_hand_landmarks:
                        mp_drawing.draw_landmarks(
@@ -301,11 +199,75 @@ def video() :
 
 @app.route('/stopAndPredict') 
 def stopAndPredict() : 
-    # cap.release()
-    # cv2.destroyAllWindows() 
+    cap.release()
+    cv2.destroyAllWindows() 
     text = ''.join(sentence)
     return render_template('recresult.html',text=text)
 
-if __name__ =='__main__': 
-    #port = os.environ.get("PORT",5000) 
-    app.run(debug =True)  
+@app.route('/imgPredict',methods=['POST','GET']) 
+def imgPredict() : 
+    if request.method == 'POST' : 
+        image_folder = 'static/images'
+        video_name = UPLOAD_FOLDER + '/' + 'video.avi'
+        text = request.form['text'] 
+        frameSize = (500, 500)
+        mean_height = 0
+        mean_width = 0 
+        path = 'static/images/'
+        num_of_images = 0
+        for ch in text : 
+            filename = ch + '.png'
+            im = Image.open(os.path.join(path, filename))
+            width, height = im.size
+            mean_width += width
+            mean_height += height
+            num_of_images += 1
+        
+        mean_width = int(mean_width / num_of_images)
+        mean_height = int(mean_height / num_of_images)
+
+        for ch in text :
+            filename = ch + '.png'
+            im = Image.open(os.path.join(path, filename))
+            width, height = im.size
+            # imResize = im.resize((mean_width, mean_height), Image.ANTIALIAS) 
+            # imResize.save( filename, 'JPEG', quality = 95) 
+            # print(im.filename.split('\\')[-1], " is resized") 
+        
+        images = []
+        for ch in text : 
+            filename = ch + '.png'
+            images.append(filename)
+        
+        print('images : ',images)
+        frame = cv2.imread(os.path.join(image_folder, images[0]))
+        height, width, layers = frame.shape  
+  
+        video = cv2.VideoWriter(video_name, 0, 3, (width, height)) 
+        for image in images: 
+            print(image)
+            img = cv2.imread(os.path.join(image_folder, image))
+            print('img : ',img)
+            video.write(img) 
+            
+        cv2.destroyAllWindows() 
+        video.release()  
+
+        path = video_name
+    return render_template('vshow.html',path=path,text = text)
+
+@app.route('/about') 
+def about() : 
+    return render_template('about.html')
+
+
+@app.route('/guide') 
+def guide() : 
+    return render_template('guide.html')
+
+@app.route('/texttospeech') 
+def TTS() : 
+    return render_template('texttospeech.html')
+
+if __name__ =='__main__':  
+    app.run(debug = True)  
