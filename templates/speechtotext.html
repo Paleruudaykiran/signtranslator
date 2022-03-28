@@ -7,7 +7,7 @@
                <button class='t-btn' id='start'>start</button>
                <button class='t-btn' id='stop'>stop</button>
                <div>
-                   <p id='instructions'> hello </p>
+                   <p id='instructions'></p>
                </div>
        </fieldset>
 </div>
@@ -28,7 +28,6 @@
     var content = ''
     console.log(recognition)
 
-    instructions.innerText = 'helloworld'
     recognition.onstart = function () {
         //console.log('started')
         instructions.innerText = 'Voice Recognition Is On...'
@@ -61,7 +60,7 @@
         recognition.start()
     })
     stop.addEventListener('click', (e) => {
-        instructions.innerHTML = 'Voic Recoginition Is Stoped...'
+        instructions.innerHTML = 'Voice Recoginition Is Stoped...'
         recognition.stop()
     })
 </script>

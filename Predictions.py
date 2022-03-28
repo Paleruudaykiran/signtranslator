@@ -39,7 +39,7 @@ def videoPrediction(path) :
                         mp_drawing_styles.get_default_hand_landmarks_style(),
                         mp_drawing_styles.get_default_hand_connections_style())
                 try:
-                    ch = 'not found'
+                    ch = '_'
                     lis = hand_landmarks.landmark
                     #print('list ',lis)
                     row = list(np.array([[landmark.x, landmark.y, landmark.z] for landmark in lis]).flatten())
@@ -47,19 +47,19 @@ def videoPrediction(path) :
                     body_language_class = model.predict(X)[0]
                     body_language_prob = model.predict_proba(X)[0]
                     print(body_language_class,round(body_language_prob[np.argmax(body_language_prob)],2)*100)
-                    #if round(body_language_prob[np.argmax(body_language_prob)],2)*100 >= 70 :
-                    ch = body_language_class.split(' ')[0]
-                    #print(ch)
-                    if idx == 0 : 
-                        sentence.append(ch) 
-                        idx += 1
-                    else : 
-                        if sentence[-1] != ch : 
+                    if round(body_language_prob[np.argmax(body_language_prob)],2)*100 >= 70 :
+                        ch = body_language_class.split(' ')[0]
+                        #print(ch)
+                        if idx == 0 : 
                             sentence.append(ch) 
-                    print(sentence)
+                            idx += 1
+                        else : 
+                            if sentence[-1] != ch : 
+                                sentence.append(ch) 
+                        #print(sentence)
                 except : 
                     pass
-    print('lis : ',sentence)
+    #print('lis : ',sentence)
     return ''.join(sentence)
 
 def imagePrediction(path) : 
